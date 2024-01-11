@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://www.iotword.com/9155.html -->
+<html lang="zh-CN" style="transform: none;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://www.iotword.com/content/uploads/2023/02/1676302216-b618a2af080f30d.png" rel="icon">
+  <title>【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网</title>
+
+	<meta name="robots" content="max-image-preview:large">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="stylesheet" id="external-css" href="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/external.css" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/sweetalert2.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/app.css" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/diy.css" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/jquery.fancybox.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="erphpdown-css" href="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/erphpdown.css" type="text/css" media="screen">
+<script src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/f.txt"></script><script src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/f(1).txt" id="google_shimpl"></script><script src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/hm.js.下载"></script><script type="text/javascript" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/jquery-2.2.4.min.js.下载" id="jquery-js"></script>
+<script type="text/javascript" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/sweetalert2.min.js.下载" id="sweetalert2-js"></script>
+	<style id="erphpdown-custom"></style>
+	<script>window._ERPHPDOWN = {"uri":"https://www.iotword.com/wp-content/plugins/erphpdown", "payment": "1", "author": "mobantu"}</script>
+<meta name="keywords" content="c++,lvgl,单片机,开源,技术教程">
+<meta name="description" content="基于ESP32的墨水屏桌面小屏幕，引入FreeRTOS，LVGL等软件库...">
+<style type="text/css"><meta name="msvalidate.01" content="A80B7F7D7447CC8B30A32EE3F17B04FA" />
+<meta name='impact-site-verification' value='5ccb2d07-5715-4ae7-81e6-a64d741e5bf6'></style>	<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://www.iotword.com/wp-content/themes/iot_s/assets/js/html5shiv.js"></script>
+      <script src="https://www.iotword.com/wp-content/themes/iot_s/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <meta http-equiv="origin-trial" content="As0hBNJ8h++fNYlkq8cTye2qDLyom8NddByiVytXGGD0YVE+2CEuTCpqXMDxdhOMILKoaiaYifwEvCRlJ/9GcQ8AAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="AgRYsXo24ypxC89CJanC+JgEmraCCBebKl8ZmG7Tj5oJNx0cmH0NtNRZs3NB5ubhpbX/bIt7l2zJOSyO64NGmwMAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A/ERL66fN363FkXxgDc6F1+ucRUkAhjEca9W3la6xaLnD2Y1lABsqmdaJmPNaUKPKVBRpyMKEhXYl7rSvrQw+AkAAACNeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A6OdGH3fVf4eKRDbXb4thXA4InNqDJDRhZ8U533U/roYjp4Yau0T3YSuc63vmAs/8ga1cD0E3A7LEq6AXk1uXgsAAACTeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><style id="theia-sticky-sidebar-stylesheet-TSS">.theiaStickySidebar:after {content: ""; display: table; clear: both;}</style></head>
+
+<body class="post-template-default single single-post postid-9155 single-format-standard  navbar-sticky sidebar-right pagination-numeric no-off-canvas" style="transform: none;">
+
+<div class="site" style="transform: none; height: auto !important;">
+    
+<header class="site-header">
+      <div class="container">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://www.iotword.com/">
+          <img class="logo regular tap-logo" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/1676285581-efe874fffedeea1.png" data-dark="" alt="物联沃-IOTWORD物联网">
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        
+        <ul id="menu-%e4%b8%bb%e5%af%bc%e8%88%aa" class="nav-list u-plain-list"><li id="menu-item-685" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-685"><a href="https://www.iotword.com/"><i class="fa fa-home" aria-hidden="true"></i> 首页</a></li>
+<li id="menu-item-124" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-124"><a href="https://www.iotword.com/news"><i class="fa fa-newspaper-o" aria-hidden="true"></i> 行业资讯</a>
+<ul class="sub-menu">
+	<li id="menu-item-160" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-160"><a href="https://www.iotword.com/news/internet">互联网</a></li>
+	<li id="menu-item-159" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-159"><a href="https://www.iotword.com/news/iot">物联网</a></li>
+</ul>
+</li>
+<li id="menu-item-123" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-123"><a href="https://www.iotword.com/apply"><i class="fa fa-cloud" aria-hidden="true"></i> 物联网应用</a>
+<ul class="sub-menu">
+	<li id="menu-item-429" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-429"><a href="https://www.iotword.com/apply/cloud">云计算</a></li>
+	<li id="menu-item-161" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-161"><a href="https://www.iotword.com/apply/%e6%99%ba%e6%85%a7%e5%9f%8e%e5%b8%82">智慧城市</a></li>
+	<li id="menu-item-162" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-162"><a href="https://www.iotword.com/apply/%e6%99%ba%e8%83%bd%e5%ae%b6%e5%b1%85">智能家居</a></li>
+	<li id="menu-item-734" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-734"><a href="https://www.iotword.com/apply/medical">智能医疗</a></li>
+	<li id="menu-item-638" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-638"><a href="https://www.iotword.com/apply/%e6%99%ba%e6%85%a7%e7%89%a9%e6%b5%81">智慧物流</a></li>
+</ul>
+</li>
+<li id="menu-item-122" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-122"><a href="https://www.iotword.com/product"><i class="fa fa-android" aria-hidden="true"></i> 智能产品</a>
+<ul class="sub-menu">
+	<li id="menu-item-654" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-654"><a href="https://www.iotword.com/product/design">产品设计</a></li>
+	<li id="menu-item-655" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-655"><a href="https://www.iotword.com/product/evaluation">产品评测</a></li>
+</ul>
+</li>
+<li id="menu-item-925" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-925"><a href="https://www.iotword.com/tech">技术教程</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://www.iotword.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                  <!-- user -->
+                          <!--关闭登陆按钮-->
+              <!--<div class="login-btn navbar-button"><i class="mdi mdi-account"></i> 登录</div>-->
+                          <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="tap-dark navbar-button"><i class="mdi mdi-brightness-4"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+      </div>
+  </header>
+
+<div class="header-gap"></div>    <div class="site-content" style="transform: none; height: auto !important;">
+    
+
+<div class="container" style="transform: none; height: auto !important;">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://www.iotword.com/">物联沃-IOTWORD物联网</a> <small>&gt;</small> <a href="https://www.iotword.com/tech">技术教程</a> <small>&gt;</small> 【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目
+	</div><div class="google-auto-placed" style="width: 100%; height: auto; clear: both; text-align: center;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-2881563560339289" data-adsbygoogle-status="done" style="display: block; margin: 10px auto 30px; background-color: transparent; height: 280px;" data-ad-status="unfilled"><div id="aswift_1_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 280px; width: 1170px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: visible;"><iframe id="aswift_1" name="aswift_1" browsingtopics="true" style="left:0;position:absolute;top:0;border:0;width:1170px;height:280px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="1170" height="280" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allow="attribution-reporting" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/ads.html" data-google-container-id="a!2" data-load-complete="true" data-google-query-id="CKGA4Zaq1IMDFT09ewcdfOQHFw"></iframe></div></ins></div>
+	<div class="row" style="transform: none; height: auto !important;">
+		<div class="content-column col-lg-9" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px; height: auto !important;">
+			
+			
+		<div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; height: auto !important;"><div class="content-area" style="height: auto !important;">
+				<main class="site-main" style="height: auto !important;">
+					<article id="post-9155" class="article-content" style="height: auto !important;">
+    <div class="container">
+  <div class="cao_entry_header">
+
+  <header class="entry-header">          <div class="entry-meta">
+                  <span class="meta-author">
+            <a>
+              <img alt="代码收藏家" data-src="https://www.iotword.com/content/uploads/2023/02/1676285744-0bb29c858229ca8.jpg" class="avatar avatar-40 photo lazyloaded" height="40" width="40" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/1676285744-0bb29c858229ca8.jpg">代码收藏家            </a>
+          </span>
+                  <span class="meta-category">
+                          <a href="https://www.iotword.com/tech" rel="category">
+                  <i class="dot"></i>技术教程              </a>
+                      </span>
+                  <span class="meta-date">
+            <a href="https://www.iotword.com/9155.html">
+              <time datetime="2023-02-24T13:01:43+08:00">
+                2023-02-24              </time>
+            </a>
+          </span>
+                    <span class="meta-edit"></span>
+                
+        
+
+
+      </div>
+    
+    <h1 class="entry-title">【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目</h1>  </header></div></div>  <div class="container" style="height: auto !important;">
+    <div class="entry-wrapper" style="height: auto !important;">
+            <div class="entry-content u-text-format u-clearfix" style="height: auto !important;">
+        <blockquote>
+<p>首先简要介绍一下这个项目：<br> 这个项目的开源主要包括<strong>硬件，固件和软件</strong>两部分，外壳后面如果做了也会开源出来。该项目主要是参考了以下教学视频。<br> 链接：<a rel="external nofollow" href="https://www.bilibili.com/video/BV1wV4y1G7Vk/?spm_id_from=333.999.0.0">桌面小屏幕实战教学</a><br> 其中硬件部分改动不大，主要是把USB驱动改成了TypeC + CP2102，其他部分没有太大改动。<br> 软件部分全部是自主编写，这部分<strong>与上面视频中的开源代码完全不同</strong>，各位可以作为参考。<br> 说明：做这个项目主要是为了把我这段时间学的东西整合到一起，<strong>项目本身的难度并不大，适合新手入门。</strong><br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/a7dfeed98e8b4ecfa959967b10b439dc.jpeg"></p>
+</blockquote>
+<p><strong>项目开源仓库：</strong><a rel="external nofollow" href="https://github.com/Jozen-Lee/Desk_Screen">https://github.com/Jozen-Lee/Desk_Screen</a></p>
+<h2><a id="1__11"></a>1. 项目简介</h2>
+<h3><a id="_12"></a>软件版本</h3>
+<blockquote>
+<p><strong>PlatformIO</strong>：6.1.5<br> <strong>SquareLine Studio</strong>： 1.1.1<br> <strong>Visual Studio</strong>：2022<br> <strong>嘉立创EDA</strong>：专业版1.9.23</p>
+</blockquote>
+<h3><a id="_18"></a>固件版本</h3>
+<blockquote>
+<p><strong>lvgl</strong>：8.3.4</p>
+</blockquote>
+<h3><a id="_21"></a>主要外设</h3>
+<blockquote>
+<p><strong>ESP32-S</strong>：带有ESP32主控 + 蓝牙 + WIFI<br> <strong>ePape</strong>r：1.54寸黑白墨水屏，采用SPI通信<br> <strong>ft6336</strong>：触摸屏，采用I2C通信<br> <strong>蜂鸣器</strong>：PWM驱动<br> <strong>USB</strong>：TypeC + CP2102</p>
+</blockquote>
+<h3><a id="_29"></a>物料清单</h3>
+<p>这里只给出核心的部件，电阻电容二极管这些可参考PCB原理图中的具体型号。</p>
+<table>
+<thead>
+<tr>
+<th>外设类别</th>
+<th>型号</th>
+<th>数量</th>
+<th>购买链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主控模块</td>
+<td>ESP32-S</td>
+<td>1</td>
+<td><a rel="external nofollow" href="https://detail.tmall.com/item.htm?_u=o2nq5amj1b77&amp;id=679756627932&amp;spm=a1z09.2.0.0.649b2e8dSB3aTb&amp;skuId=4874463593107">ESP32-S模组WiFi+蓝牙ESP32串口转WiFi模块PCB开放板</a></td>
+</tr>
+<tr>
+<td>电子纸触摸屏</td>
+<td>GDEY0154D67-T03</td>
+<td>1</td>
+<td><a rel="external nofollow" href="https://item.taobao.com/item.htm?spm=a1z09.2.0.0.649b2e8dSB3aTb&amp;id=577513991073&amp;_u=o2nq5amj353a">电子纸触摸屏</a></td>
+</tr>
+<tr>
+<td>USB芯片</td>
+<td>CP2102-GMR</td>
+<td>1</td>
+<td><a rel="external nofollow" href="https://item.szlcsc.com/7033.html">CP2102-GMR</a></td>
+</tr>
+<tr>
+<td>锂电池充电管理模块</td>
+<td>TP4056</td>
+<td>1</td>
+<td><a rel="external nofollow" href="https://item.szlcsc.com/354934.html">1A锂电池充电IC</a></td>
+</tr>
+<tr>
+<td>线性稳压器</td>
+<td>AMS1117-3.3</td>
+<td>1</td>
+<td><a rel="external nofollow" href="https://item.szlcsc.com/323882.html">正 Vin=18V Vout=3.3V 1A 60dB@(120Hz)</a></td>
+</tr>
+<tr>
+<td>蜂鸣器</td>
+<td>MLT-5020</td>
+<td>1</td>
+<td><a rel="external nofollow" href="https://item.szlcsc.com/95796.html">MLT-5020</a></td>
+</tr>
+<tr>
+<td>TypeC接插件</td>
+<td>TYPEC-324-BCP24</td>
+<td>1</td>
+<td><a rel="external nofollow" href="https://item.szlcsc.com/2998972.html">Type-C 母座 卧贴</a></td>
+</tr>
+<tr>
+<td>轻触开关</td>
+<td>TS24CA</td>
+<td>2</td>
+<td><a rel="external nofollow" href="https://item.szlcsc.com/372554.html">蓝牙耳机轻触开关</a></td>
+</tr>
+<tr>
+<td>锂电池3.7V</td>
+<td>301030</td>
+<td>1</td>
+<td><a rel="external nofollow" href="https://item.taobao.com/item.htm?spm=a1z09.2.0.0.33c82e8df7KxJR&amp;id=687881362107&amp;_u=o2nq5amj0039">蓝牙耳机电池小体积大容量</a></td>
+</tr>
+</tbody>
+</table>
+<p>建议TypeC改为以下的封装，比较便宜好焊，PCB图做简单修改即可。<br> <a rel="external nofollow" href="https://item.szlcsc.com/747093.html">KH-TYPE-C-16P</a></p>
+<h2><a id="2__45"></a>2. 硬件部分</h2>
+<p>这部分对应开源仓库中的<strong>Hardware</strong>，整体电路比较简单，这里只提一些关键点。</p>
+<h2><a id="_47"></a>自动下载电路</h2>
+<p>CP2102是可以设计自动下载电路的，原理图如下：（参考稚晖君的开源项目）<br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/70489b7d4f1740ed95f9742d186cd731.png"><br> 本项目虽然使用了CP2102，但当时设计的时候没考虑到这个，所以是采用了手动下载的方式。<br> 下载时需要拉低GPIO0再按复位键进行下载。(右方的两个按键)<br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/8f0d381393a24ba9a1ac0bbc16047131.png"></p>
+<h2><a id="_56"></a>屏幕接插口</h2>
+<p>这个属于是设计上的失误，当时买的外设是墨水屏+触摸屏一体化模块，但是两个接插件的相对位置存在误差，导致连接的时候触摸屏FPC线需要弯曲。<br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/1017200ac19d45d4a9f3e7e6ac3e96f8.jpeg" alt="请添加图片描述"><br> <strong>其余可优化的细节</strong></p>
+<blockquote>
+<ol>
+<li>缩小PCB尺寸（当前的尺寸明显是过大的）</li>
+<li>添加锁紧开关（因为是锂电池供电，没有开关的话每次只能通过拔电池来断电，很麻烦）</li>
+<li>添加电源指示灯（板子上目前只有锂电池充放电指示灯）</li>
+<li>优化供电电路（目前USB的5V供电只拿来给锂电池充电，所以只插USB不接电池板子是无法正常工作的）</li>
+</ol>
+</blockquote>
+<h2><a id="3__66"></a>3. 固件部分</h2>
+<p>这部分对应开源仓库中的<strong>Firmware</strong>，开发平台选用的是vscode + PlatformIO。<br> 项目中涉及到了很多外设的驱动库，原则上是<strong>尽量选用Platform平台上有的开源库</strong>，因为移植和使用都比较简单。不过也要考虑适配性，开源库不是万能的，大部分时候都<strong>需要根据使用的外设提供的demo，来修改开源库的参数或者源码</strong>。<br> 首先介绍一下使用到的库和相关的配置。</p>
+<h2><a id="epd_libraries_70"></a>epd_libraries</h2>
+<p>官方链接：<a rel="external nofollow" href="https://github.com/Bodmer/EPD_Libraries">https://github.com/Bodmer/EPD_Libraries</a><br> 我使用的是其中的<strong>epd1in54</strong>库，对应了我所使用墨水屏的尺寸。<br> 我根据官方demo修改了库中的刷屏源码。不修改的话，显示的图像会很模糊。<br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/1e7811d6badd4a69806c1cf8b60858a7.png"></p>
+<h2><a id="ft6336_75"></a>ft6336</h2>
+<p>这部分使用的是Platform Libraries中的<strong>htcw_ft6336</strong>库<br> 主要修改的部分是GPIO口的配置和初始化的配置。</p>
+<blockquote>
+<p>关键点：虽然pins_arduino.h中有I2C和SPI的引脚配置，但我们完全是可以根据我们的需求进行修改的，ESP32芯片也是支持的。</p>
+</blockquote>
+<pre><code class="prism language-cpp">/* init code */
+bool initialize() {<!-- -->
+  if(!m_initialized) {<!-- -->
+     /* Device Reset */
+      gpio_set_level((gpio_num_t)pin_res, 0);
+      vTaskDelay(50 / portTICK_PERIOD_MS);
+      gpio_set_level((gpio_num_t)pin_res, 1);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
+      /* Init I2C */
+      m_i2c.begin(33, 32, 10000); 
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+      device_gpio_config();
+
+      /* Set normal mode */ 
+      uint8_t w_data=0;
+      reg(REG_DEVICE_MODE, w_data);
+
+      /* set touch availd value to 22, smaller to more sensitive */
+      w_data=22;	
+      reg(REG_THRESHHOLD, w_data);	
+
+      /* set active period 12 - 14 */					
+      w_data=14;			
+      reg(REG_TOUCHRATE_ACTIVE, w_data);					
+
+      /* Set interrupt mode */
+      w_data = 0;
+      reg(REG_INTERRUPT_MODE, w_data);
+
+      m_initialized=true;
+   }
+   return true;
+}
+</code></pre>
+<h2><a id="lvgl_117"></a>lvgl</h2>
+<p>这里引入lvgl主要是方便UI的开发以及链接显示屏与触摸屏的数据，库的相关配置可以参考我之前的博客：<a rel="external nofollow" href="https://iam-tutu.blog.csdn.net/article/details/128383151">【LVGL学习笔记】（四）PlatformIO + LVGL8.3配置</a><br> 因为墨水屏无法像LCD那样子不断刷新数据，所以在配置的时候，需要修改屏幕缓存更新的逻辑。<br> 我采用的逻辑如下：</p>
+<ol>
+<li>根据lvgl的数据刷新主控内部的缓存空间</li>
+<li>每次屏幕被按下的时候，将主控的缓存一次性发过去给墨水屏的RAM并刷新显示。</li>
+</ol>
+<pre><code class="prism language-cpp">/* 这里只给出核心部分代码，其余的源码请参考开源仓库中的代码 */
+uint8_t img_buf[MY_DISP_HOR_RES * MY_DISP_VER_RES / 8];
+Paint paint(img_buf, MY_DISP_HOR_RES, MY_DISP_VER_RES);
+
+static void disp_flush(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p)
+{<!-- -->
+    uint32_t w = (area-&gt;x2 - area-&gt;x1 + 1);
+	uint32_t h = (area-&gt;y2 - area-&gt;y1 + 1);
+
+    for(int i = area-&gt;y1; i &lt;= area-&gt;y2; i ++){<!-- -->
+        for(int j = area-&gt;x1; j &lt;= area-&gt;x2; j ++){<!-- -->
+            if(color_p[(j-area-&gt;x1) + (i-area-&gt;y1)*w].full == 0xffff) paint.DrawPixel(j, i, UNCOLORED);
+            else paint.DrawPixel(j, i, COLORED);                  
+        }
+    }
+    lv_disp_flush_ready(disp_drv);
+}
+	
+void Display::refresh(void)
+{<!-- -->
+    epd.SetFrameMemory(paint.GetImage());
+	epd.DisplayFrame();
+}
+</code></pre>
+<h3><a id="lvgl_148"></a>lvgl的图片与字体</h3>
+<p>lvgl官方提供了相关的网址，可以便捷地使用。<br> 图片转换：<a rel="external nofollow" href="https://lvgl.io/tools/imageconverter">Online Image Converter</a><br> 字库生成；<a rel="external nofollow" href="https://lvgl.io/tools/fontconverter">Online Font Converter</a><br> 字库的相关配置可以参考这篇博客：<a rel="external nofollow" href="https://blog.csdn.net/kelleo/article/details/122686644">lvgl界面库支持汉字显示</a></p>
+<blockquote>
+<ol>
+<li>在设计UI的时候，使用的字体类别尽量少，因为每启用一类字体，都需要引入一个字库，需要比较多的内存。</li>
+<li>lvgl中带有中文的支持，字库类别是LV_FONT_SIMSUN_16_CJK，但是其中只有少量的中文字符，所以最好还是自己生成汉字字库。</li>
+</ol>
+</blockquote>
+<h2><a id="BluetoothSerialWifi_157"></a>BluetoothSerial&amp;Wifi</h2>
+<p>ESP32-S内置有天线，可以支持蓝牙和WiFi通信。两者共用一根天线，但通信协议不同，所以两者是可以支持共存的，但不可以同时使用。详细的说明可以参考官方手册中的说明：<a rel="external nofollow" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-guides/coexist.html">RF共存</a><br> 因为本项目相对简单，所以我没有配置共存相关的东西。因此，在二次开发的时候要注意，项目中的蓝牙和wifi的库都可以正常使用，但是<strong>使用前都需要将另一方关闭</strong>，否则程序会崩溃。</p>
+<pre><code class="prism language-cpp">/* 蓝牙驱动核心代码 */
+void Bluetooth_Event(esp_spp_cb_event_t event, esp_spp_cb_param_t* param) {<!-- -->
+    /* the first event is from master, the second event is from slave */
+    if (event == ESP_SPP_OPEN_EVT || event == ESP_SPP_SRV_OPEN_EVT) {<!-- -->
+        Serial.write("bluetooth connection successful!\r\n");
+    } else if (event == ESP_SPP_CLOSE_EVT) {<!-- -->
+        Serial.write("bluetooth disconnect successful!\r\n");
+    } else if (event == ESP_SPP_DATA_IND_EVT) {<!-- -->
+        uint16_t len = 0;
+        memset(rx_buff, '\0', BLUETOOTH_MAX_LEN);
+        while (SerialBT.available()) {<!-- -->
+            if (len &lt; BLUETOOTH_MAX_LEN) {<!-- -->
+                rx_buff[len] = char(SerialBT.read());
+                len++;
+            }
+        }
+        update_flag = true;
+        rx_len = len;
+        Serial.println(rx_buff);
+    } else if (event == ESP_SPP_WRITE_EVT) {<!-- -->
+    }
+}
+void Bluetooth::init(void) {<!-- -->
+    /* Register callback function */
+    SerialBT.register_callback(Bluetooth_Event);
+
+    /* Start bluetooth */
+    stop();   
+}
+
+void Bluetooth::start(void) {<!-- -->
+    if (BLT_MASTER_MODE) {<!-- -->
+        SerialBT.begin("ESP32_MASTER", true);
+        SerialBT.connect(address);
+    } else {<!-- -->
+        SerialBT.begin("ESP32_SLAVE");
+    }
+}
+
+void Bluetooth::stop(void) {<!-- --> SerialBT.end(); }
+</code></pre><div class="google-auto-placed ap_container" style="width: 100%; height: auto; clear: both; text-align: center;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-2881563560339289" data-adsbygoogle-status="done" style="display: block; margin: auto; background-color: transparent; height: 0px;" data-ad-status="unfilled"><div id="aswift_2_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 0px; width: 764px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: hidden; opacity: 0;"><iframe id="aswift_2" name="aswift_2" browsingtopics="true" style="left: 0px; position: absolute; top: 0px; border: 0px; width: 764px; height: 0px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="764" height="0" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allow="attribution-reporting" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/ads(1).html" data-google-container-id="a!3" data-load-complete="true" data-google-query-id="CLPdlM-q1IMDFdTnTAIdD6YLcg"></iframe></div></ins></div>
+<pre><code class="prism language-cpp">/* WiFi驱动核心代码 */
+void Network::init(String ssid, String password) {<!-- -->
+/* enable wifi scan */
+#if 0
+    Serial.println("scan start");
+    int n = WiFi.scanNetworks();
+    Serial.println("scan done");
+    if (n == 0) {<!-- -->
+        Serial.println("no networks found");
+    } else {<!-- -->
+        Serial.print(n);
+        Serial.println(" networks found");
+        for (int i = 0; i &lt; n; ++i) {<!-- -->
+            Serial.print(i + 1);
+            Serial.print(": ");
+            Serial.print(WiFi.SSID(i));
+            Serial.print(" (");
+            Serial.print(WiFi.RSSI(i));
+            Serial.print(")");
+            Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN) ? " " : "*");
+            delay(10);
+        }
+    }
+    Serial.println("");
+#endif
+
+    Serial.print("Connecting: ");
+    Serial.print(ssid.c_str());
+    Serial.print(" @");
+    Serial.println(password.c_str());
+    WiFi.begin(ssid.c_str(), password.c_str());
+    while (WiFi.status() != WL_CONNECTED) {<!-- -->
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("");
+    Serial.println("WiFi connected!");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+
+    /* config world time */
+    configWorldTime();
+}
+</code></pre>
+<h2><a id="ledc_251"></a>ledc</h2>
+<p>EPS32有基础的PWM驱动库，也有ledc，mcpwm等经过了二次封装的PWM驱动库。<br> 官方的本意是提供更便捷的驱动API，ledc用了LED灯光亮度的控制，mcpwm用于电机驱动。但是我们完全可以用这些库来控制其他需要PWM信号进行驱动的外设。本项目用其来驱动无源蜂鸣器。</p>
+<blockquote>
+<p>无源蜂鸣器没有正负极之分，所以蜂鸣器的发生效果只受PWM的频率影响，不受占空比影响。因此我们将占空比设置为定值即可。</p>
+</blockquote>
+<p>该项目使用蜂鸣器实现了<strong>音乐播放/暂停，切换</strong>等操作。</p>
+<pre><code class="prism language-cpp">void music_timer_cb(void* arg) {<!-- -->
+    if (*_tune &amp;&amp; music_playing) {<!-- -->
+        if(*_tune != -1) ledcWriteTone(BEEP_PWM_CHANNEL, *_tune);
+        _tune++;
+        esp_timer_start_once(music_timer, BASIC_BEAT_TIME * 1000 * (*_beat));
+        _beat++;
+
+    } else if (!*_tune &amp;&amp; loop_flag) {<!-- -->
+        _tune = _tune_record;
+        _beat = _beat_record;
+        music_playing = true;
+        esp_timer_start_once(music_timer, 10);
+        // Serial.println("music loop!");
+    } else {<!-- -->
+        music_playing = false;
+        ledcWrite(BEEP_PWM_CHANNEL, 0);
+        // Serial.println("music pause!");
+    }
+}
+
+void Beep::init(void) {<!-- -->
+    /* Set freq and resolution to default value */
+    ledcSetup(BEEP_PWM_CHANNEL, 4000, 8);
+    ledcAttachPin(BEEP_PIN, BEEP_PWM_CHANNEL);
+    stop();
+
+    /* register music timer */
+    esp_timer_create_args_t music_timer_args = {<!-- --> .callback = &amp;music_timer_cb, .arg = NULL, .name = "music_timer" };
+    esp_err_t err = esp_timer_create(&amp;music_timer_args, &amp;music_timer);
+}
+</code></pre>
+<h2><a id="ArduinoJson_292"></a>ArduinoJson</h2>
+<p>因为EPS32可以联网，而联网访问各个网址，得到的信息一般都是json格式，所以需要该库来对信息进行解码操作。该库主要应用在了以下的获取天气信息的函数中。</p>
+<h4><a id="_294"></a>获取天气信息</h4>
+<p>采用的是心知天气提供的API接口。<br> 该API有免费版可以供用户使用，详情可以参考官方网址：<a rel="external nofollow" href="https://www.seniverse.com/">心知天气</a><br> <strong>API返回的数据格式</strong></p>
+<blockquote>
+<p>{“results”:[{“location”:{“id”:“W7YGK0CKZKF9”,“name”:“茂名”,<br> “country”:“CN”,“path”:“茂名,茂名,广东,中国”,<br> “timezone”:“Asia/Shanghai”,“timezone_offset”:“+08:00”},<br> “now”:{“text”:“晴”,“code”:“0”,“temperature”:“21”},“last_update”:“2022-12-26T13:40:11+08:00”}]}</p>
+</blockquote>
+<p><strong>核心代码</strong></p>
+<pre><code class="prism language-cpp">/**
+ * @brief get the information of your city refer to ip
+ *
+ * @param country
+ * @param province
+ * @param city
+ * @param weather
+ * @param temp
+ */
+bool Network::getCityinfo(String&amp; country, String&amp; province, String&amp; city, String&amp; weather, String&amp; temp) {<!-- -->
+    HTTPClient http;
+    DynamicJsonDocument doc(1024);
+    /* Compose url */
+    String url_xinzhi = composeZXaddress("ip");
+    http.begin(url_xinzhi);
+    int httpGet = http.GET();
+    if (httpGet &gt; 0) {<!-- -->
+        if (httpGet == HTTP_CODE_OK) {<!-- -->
+            String json = http.getString();
+            deserializeJson(doc, json);
+            String loc = doc["results"][0]["location"]["path"].as&lt;String&gt;();
+            String loc_split[4];
+            stringSplit(loc_split, loc, ',');
+            city = loc_split[1];
+            province = loc_split[2];
+            country = loc_split[3];
+            weather = doc["results"][0]["now"]["text"].as&lt;String&gt;();
+            temp = doc["results"][0]["now"]["temperature"].as&lt;String&gt;();
+            return true;
+        } else {<!-- -->
+            Serial.printf("ERROR!");
+            return false;
+        }
+    } else {<!-- -->
+        Serial.printf("ERROR!");
+        return false;
+    }
+}
+
+String Network::composeZXaddress(String city) {<!-- -->
+    String url_xinzhi = "https://api.seniverse.com/v3/weather/now.json?key=";
+    url_xinzhi += XINZHI_KEY;
+    url_xinzhi += "&amp;location=";
+    url_xinzhi += city;
+    url_xinzhi += "&amp;language=zh-Hans&amp;unit=c";
+    return url_xinzhi;
+}
+
+void Network::stringSplit(String* dst, String message, char flag){<!-- -->
+    int flag_position;
+    uint8_t num = 0;
+    /* Split String */
+    do {<!-- -->
+        flag_position = message.indexOf(flag);
+        if (flag_position != -1) {<!-- -->
+            dst[num++] = message.substring(0, flag_position);
+            message = message.substring(flag_position + 1, message.length());
+        } else {<!-- -->
+            dst[num] = message;
+        }
+    } while (flag_position &gt;= 0);
+}
+</code></pre>
+<h4><a id="_368"></a>获取时间</h4>
+<p>ESP32提供了非常便捷的API接口供我们使用，并且我们只需要联网获取一次世界时间，ESP32就会调用内部的RTC时钟来自动更新时间，我们只需读取即可。<br> <strong>核心代码</strong></p>
+<pre><code class="prism language-cpp">#define NTP1 "ntp1.aliyun.com"
+#define NTP2 "ntp2.aliyun.com"
+#define NTP3 "ntp3.aliyun.com"
+/**
+ * @brief Config World time
+ *
+ */
+void Network::configWorldTime() {<!-- -->
+    struct tm timeinfo;
+    if (!getLocalTime(&amp;timeinfo)) {<!-- -->
+        configTime(8 * 3600, 0, NTP1, NTP2, NTP3);
+        return;
+    }
+    /* format output: 2021-10-24 23:00:44 Sunday */
+    Serial.println(&amp;timeinfo, "%F %T %A");
+}
+</code></pre>
+<h2><a id="FreeRTOS_391"></a>FreeRTOS</h2>
+<p>不同于STM32需要从外部引入FreeRTOS，EPS32的FreeRTOS库是内部库，可以直接引入头文件进行调用。运用FreeRTOS可以很好地构建代码框架，本项目的架构如下：<br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/8a39410c00eb4451ab63202f19555319.png"></p>
+<p>因为PlatformIO的编译环境比较使用小体量的ESP32代码工程，所以我没有像STM32那样构建比较复杂的文件层级，只是将外设变量的定义，FreeRTOS的任务和变量创建用新的文件进行了封装，而不是全部堆砌在main中。</p>
+<blockquote>
+<p>值得一提的是，ESP32中有两个核，所以它提供了新的FreeRTOS任务创建API：<strong>xTaskCreatePinnedToCore</strong>，它的最后一个参数可以为0或1，用于设置任务在哪个核上跑。</p>
+</blockquote>
+<pre><code class="prism language-cpp">/* main.cpp */
+void setup() {<!-- -->
+  System_Resource_Init();
+}
+
+TickType_t _xTicksToWait = pdMS_TO_TICKS(10000);
+String country, province, city, weather, temp;
+String loc;
+void loop() {<!-- -->
+  lv_task_handler();
+  delay(20);
+}
+</code></pre>
+<pre><code class="prism language-cpp">/* SystemConfig.cpp */
+void System_Resource_Init(void){<!-- -->
+
+    /* RTOS resources Init */
+    MusicCmd_Port = xQueueCreate(4,sizeof(int8_t));
+
+    /* Begin Serial */
+    Serial.begin(115200);
+
+    /* Init beep */
+    beep.init();
+
+    /* Init screen */
+    screen.init();
+
+    /* Init blt */
+    blt.init();
+
+    /* Init lvgl input device */
+    lv_port_indev_init();
+
+    /* connect network */
+    String ssid = "TP-LINK_1CC0";           // line-1 for WiFi ssid
+    String password = "woaiwojia012668";    // line-2 for WiFi password
+    #if 1
+        wifi.init(ssid, password);
+
+        /* Change to your BiliBili UID */ 
+        // Serial.println(wifi.getBilibiliFans("472453800"));
+    #endif  
+
+    /* Init ui */
+    ui_init();
+
+    /* Init system task */
+    System_Tasks_Init();
+}
+
+void System_Tasks_Init(void)
+{<!-- --> 
+    Service_Devices_Init();
+    Service_Interaction_Init();
+}
+
+/* Service_Device.cpp */
+/**
+ * @brief Initialization of device management service
+ *
+ */
+void Service_Devices_Init(void) {<!-- -->
+    xTaskCreatePinnedToCore(Device_Beep,        "Dev.Beep",         2000,   NULL, 1, &amp;Beep_Handle,      0);
+    xTaskCreatePinnedToCore(Device_Screen,      "Dev.Screen",       10000,  NULL, 1, &amp;Screen_Handle,    0);
+    xTaskCreatePinnedToCore(Device_Touchpad,    "Dev.Touchpad",     10000,  NULL, 1, &amp;Touchpad_Handle,  0);
+}
+
+/* Service_Interaction .cpp */
+/**
+ * @brief Initialization of interaction relative task
+ *
+ */
+void Service_Interaction_Init(void) {<!-- -->
+    xTaskCreatePinnedToCore(Interact_updateInfo, "Interact.updateInfo", 10000, NULL, 3, &amp;updateInfo_Handle, 1);
+    xTaskCreatePinnedToCore(Interact_updateTime, "Interact.updateTime", 2000, NULL, 1, &amp;updateTime_Handle, 1);
+}
+</code></pre>
+<h2><a id="4__481"></a>4. 软件部分</h2>
+<p>这里给出UI设计可能会用到的网站：</p>
+<blockquote>
+<p>个人的LOGO设计：<a rel="external nofollow" href="https://www.logosc.cn/biaozhi/">免费LOGO设计模板在线制作</a><br> 矢量图标：<a rel="external nofollow" href="https://www.iconfont.cn/search/index?searchType=icon&amp;q=home">阿里巴巴矢量图标库</a><br> 图像二值化：<a rel="external nofollow" href="https://www.usualtool.com/ai.php?t=erzhi">图片二值化</a></p>
+</blockquote>
+<h2><a id="SquareLine_Studio_487"></a>SquareLine Studio</h2>
+<p>SquareLine Studio是lvgl官方推荐的UI设计软件，可以实现所见即所得。<br> 详细的配置说明可以参考我之前的博客：<a rel="external nofollow" href="https://blog.csdn.net/weixin_45728705/article/details/128385048?spm=1001.2014.3001.5501">【LVGL学习笔记】（五）使用SquareLine Studio设计UI</a><br> SquareLine Studio中有lvgl各种常见的控件，并且可以很方便地配置控件参数。<br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/dab04bb9e4084c81bdeff1dc9b3f973e.png"><br> 同时，它还可以为控件添加事件以及动画效果。</p>
+<blockquote>
+<p>因为本项目用的是墨水屏，不可以频繁刷屏，所以各种动画效果我都设置为NONE。如果是LCD屏，搭配动画效果可以实现很酷炫的效果。</p>
+</blockquote>
+<p><img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/04115eea722443d78e9df9021f3186d1.png"></p>
+<p><strong>使用SquareLine Studio设计的界面如下</strong><br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/b05c05ed4cd04dcfb3be5b2e308d49d4.png"></p>
+<h2><a id="LvglSimulatorVisual_Studio_500"></a>LvglSimulator（Visual Studio）</h2>
+<p>LvglSimulator是lvgl的模拟器，可以大大节约开发的时间。需要注意的是，上面提到的SquareLine Studio也具有一个播放模式，在这个模式下，也是可以模拟界面的变化。LvglSimulator与之的区别是<strong>可以验证业务层的代码逻辑</strong>，并且添加一些界面的细节（因为<strong>部分控件SquareLine Studio中是没有的，需要使用lvgl相关的API函数进行绘制</strong>）<br> LvglSimulator的配置可以参考我的博客：<a rel="external nofollow" href="https://blog.csdn.net/weixin_45728705/article/details/128342917?spm=1001.2014.3001.5501">【LVGL学习笔记】（一）环境搭建</a><br> lvgl的控件使用可以参考我的博客：<a rel="external nofollow" href="https://blog.csdn.net/weixin_45728705/article/details/128349343?spm=1001.2014.3001.5501">【LVGL学习笔记】（三）控件使用</a><br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/1cac5f48283743e5aae2668509c140a8.png"></p>
+<h2><a id="_506"></a>效果展示</h2>
+<p><img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/0cd9d0f96fcd4cdaabaf55c055b44e8f.jpeg" alt="请添加图片描述"><br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/f6716c963e1d46fa9f45816853c4c7f5.jpeg" alt="请添加图片描述"><br> <img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/22962e8ae69d4e399683149e4a465591.jpeg" alt="请添加图片描述"></p>
+<div class="yarpp yarpp-related yarpp-related-website yarpp-template-list">
+<!-- YARPP List -->
+<h3>您可能感兴趣的内容:</h3><ul>
+<li><a href="https://www.iotword.com/8266.html" rel="bookmark" title="制作Arduino智能小车：一步一步指导">制作Arduino智能小车：一步一步指导 </a></li>
+<li><a href="https://www.iotword.com/7649.html" rel="bookmark" title="【ESP8266 OLED智能时钟：网络校时、实时天气及天气预报】">【ESP8266 OLED智能时钟：网络校时、实时天气及天气预报】 </a></li>
+<li><a href="https://www.iotword.com/7587.html" rel="bookmark" title="【ESP32音视频传输】①用I2S通过内部DAC或MAX98357A播放音乐/录音数据及接受网络广播">【ESP32音视频传输】①用I2S通过内部DAC或MAX98357A播放音乐/录音数据及接受网络广播 </a></li>
+<li><a href="https://www.iotword.com/3260.html" rel="bookmark" title="【python教程】– 入门 | 小甲鱼《零基础入门学Python》教程笔记（知识点详细、源码可复制）全">【python教程】– 入门 | 小甲鱼《零基础入门学Python》教程笔记（知识点详细、源码可复制）全 </a></li>
+<li><a href="https://www.iotword.com/2254.html" rel="bookmark" title="springboot实现简单的注册登录功能">springboot实现简单的注册登录功能 </a></li>
+</ul>
+</div>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://www.iotword.com/tag/c-2" rel="tag">
+        c++      </a>
+          <a href="https://www.iotword.com/tag/lvgl" rel="tag">
+        lvgl      </a>
+          <a href="https://www.iotword.com/tag/%e5%8d%95%e7%89%87%e6%9c%ba" rel="tag">
+        单片机      </a>
+          <a href="https://www.iotword.com/tag/%e5%bc%80%e6%ba%90" rel="tag">
+        开源      </a>
+      </div>
+<div class="article-copyright">物联沃分享整理<br><a href="https://www.iotword.com/">物联沃-IOTWORD物联网</a> » <a href="https://www.iotword.com/9155.html">【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目</a></div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="" data-src="https://www.iotword.com/content/uploads/2023/02/1676285744-0bb29c858229ca8.jpg" class="avatar avatar-96 photo lazyloaded" height="96" width="96" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/1676285744-0bb29c858229ca8.jpg">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a href="javascript:;">代码收藏家</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+                 <a href="javascript:;" title="收藏文章" etap="star" data-postid="9155" class="ripro-star"><i class="fa fa-star-o"></i></a>
+            <a href="https://www.iotword.com/9155.html" etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a href="https://www.iotword.com/9155.html" etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://www.iotword.com/9154.html" rel="prev">学习STM32F103：GZP6859D压力传感器的使用指南</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://www.iotword.com/9156.html" rel="next">探索 STM32F407：独立看门狗实验 – 开发板系列（二十）</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/7318.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/a42d8823be714219b806f922dee47cae.png" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/a42d8823be714219b806f922dee47cae.png" alt="基于STM32单片机的密码锁仿真程序分析报告">
+          </a>
+                  </div>
+              </div>
+                      <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a href="https://www.iotword.com/7318.html" title="基于STM32单片机的密码锁仿真程序分析报告" rel="bookmark">基于STM32单片机的密码锁仿真程序分析报告</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/11257.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/a86e7b6521c04095a75b6dfb96553fa5.jpeg#pic_center" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/a86e7b6521c04095a75b6dfb96553fa5.jpeg" alt="【STM32】知识补充 晶振的基本原理及其应用">
+          </a>
+                  </div>
+              </div>
+                      <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a href="https://www.iotword.com/11257.html" title="【STM32】知识补充 晶振的基本原理及其应用" rel="bookmark">【STM32】知识补充 晶振的基本原理及其应用</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/8348.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/8b85eb5e6f6a43ff99df994136c68d43.png" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/8b85eb5e6f6a43ff99df994136c68d43.png" alt="STM32 VOFA 串口调试助手：提升电机控制调试效率，实时展示下位机代码和上位机操作">
+          </a>
+                  </div>
+              </div>
+                      <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a href="https://www.iotword.com/8348.html" title="STM32 VOFA 串口调试助手：提升电机控制调试效率，实时展示下位机代码和上位机操作" rel="bookmark">STM32 VOFA 串口调试助手：提升电机控制调试效率，实时展示下位机代码和上位机操作</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/11851.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/17d79f5893aa4a2d968b0deb4554893e.jpeg" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/17d79f5893aa4a2d968b0deb4554893e.jpeg" alt="分析CAN数据帧结构的图解解释">
+          </a>
+                  </div>
+              </div>
+                      <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a href="https://www.iotword.com/11851.html" title="分析CAN数据帧结构的图解解释" rel="bookmark">分析CAN数据帧结构的图解解释</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://www.iotword.com/9155.html#respond" style="display:none;">取消回复</a></small></h3><form action="https://www.iotword.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate=""><p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p><div class="row comment-author-inputs"><div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div></div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="9155" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8c87fe1a11"></p><label for="comment_mail_notify" class="checkbox inline hide" style="padding-top:0"><input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked">有人回复时邮件通知我</label><textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100" style="display: none !important;"></textarea><input type="hidden" id="ak_js" name="ak_js" value="1704941537727"></form>	</div><!-- #respond -->
+	    </div>
+</div>				</main>
+			</div></div></div>
+					<div class="sidebar-column col-lg-3" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 7849.2px; height: auto !important;">
+				
+			<div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: fixed; transform: translateY(80px); height: auto !important; left: 1298.2px; top: 0px; width: 306px;"><aside class="widget-area" style="height: auto !important;">
+	<div id="custom_html-2" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://curl.qcloud.com/CCgDVCB0" target="_blank" rel="noopener">
+<img src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/voSpjA.png">
+</a>
+
+<!-- <a href="https://a02.aizmd.com/buy/1" target="_blank" rel="noopener"><img src="http://i3.wp.com/s1.ax1x.com/2023/02/15/pS72rPf.png"></a> --></div></div><div id="cao_widget_post-4" class="widget cao-widget-posts" style="height: auto !important;"><h5 class="widget-title">推荐内容</h5><div class="posts"><div class="left">      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/16914.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/img_convert/12f87bd0fa0bf68cf02165dc9a46234d.png" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/12f87bd0fa0bf68cf02165dc9a46234d.png" alt="MCS-51单片机硬件结构解析">
+          </a>
+                  </div>
+              </div>
+      <a href="https://www.iotword.com/16914.html" rel="bookmark" title="MCS-51单片机硬件结构解析">MCS-51单片机硬件结构解析</a></div><div class="left">      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/16354.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/2a70a62671804cfa9fa45fb3318b5494.png" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/2a70a62671804cfa9fa45fb3318b5494.png" alt="使用STM32固件库编程实现LED小灯点亮功能">
+          </a>
+                  </div>
+              </div>
+      <a href="https://www.iotword.com/16354.html" rel="bookmark" title="使用STM32固件库编程实现LED小灯点亮功能">使用STM32固件库编程实现LED小灯点亮功能</a></div><div class="left">      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/8135.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/img_convert/5db01488866ed21232eaa1d391330086.png" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/5db01488866ed21232eaa1d391330086.png" alt="ARM 寄存器：深入浅出的解读">
+          </a>
+                  </div>
+              </div>
+      <a href="https://www.iotword.com/8135.html" rel="bookmark" title="ARM 寄存器：深入浅出的解读">ARM 寄存器：深入浅出的解读</a></div><div class="left">      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/11685.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/ca75c3f234a64f8b9ded1df0d0249355.png" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/ca75c3f234a64f8b9ded1df0d0249355.png" alt="stm32毕设分享 STM32智能饮水机控制系统(源码+硬件+论文)">
+          </a>
+                  </div>
+              </div>
+      <a href="https://www.iotword.com/11685.html" rel="bookmark" title="stm32毕设分享 STM32智能饮水机控制系统(源码+硬件+论文)">stm32毕设分享 STM32智能饮水机控制系统(源码+硬件+论文)</a></div><div class="left">      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/14749.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/2ca0fc8c869949bdbc29a0706fdbdf4a.png" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/2ca0fc8c869949bdbc29a0706fdbdf4a.png" alt="SPI协议—读写串行FLASH（详细讲解+代码）">
+          </a>
+                  </div>
+              </div>
+      <a href="https://www.iotword.com/14749.html" rel="bookmark" title="SPI协议—读写串行FLASH（详细讲解+代码）">SPI协议—读写串行FLASH（详细讲解+代码）</a></div><div class="left">      <div class="entry-media">
+        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+          <a href="https://www.iotword.com/16608.html">
+            <img class=" lazyloaded" data-src="https://i3.wp.com/img-blog.csdnimg.cn/2c2026a67db44aa0bb847ec002fb463e.png#pic_center" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/2c2026a67db44aa0bb847ec002fb463e.png" alt="【STM32】IAP升级01：实现bootloader和APP配置详解">
+          </a>
+                  </div>
+              </div>
+      <a href="https://www.iotword.com/16608.html" rel="bookmark" title="【STM32】IAP升级01：实现bootloader和APP配置详解">【STM32】IAP升级01：实现bootloader和APP配置详解</a></div></div><div class="google-auto-placed" style="width: 100%; height: auto; clear: both; text-align: center;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-2881563560339289" data-adsbygoogle-status="done" style="display: block; margin: 10px auto; background-color: transparent; height: 0px;" data-ad-status="unfilled"><div id="aswift_3_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 0px; width: 266px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: hidden; opacity: 0;"><iframe id="aswift_3" name="aswift_3" browsingtopics="true" style="left: 0px; position: absolute; top: 0px; border: 0px; width: 266px; height: 0px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="266" height="0" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allow="attribution-reporting" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/ads(2).html" data-google-container-id="a!4" data-load-complete="true" data-google-query-id="CMTmi5eq1IMDFc03ewcdpzwLaw"></iframe></div></ins></div></div><div class="google-auto-placed" style="width: 100%; height: auto; clear: both; text-align: center;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-2881563560339289" data-adsbygoogle-status="done" style="display: block; margin: 10px auto; background-color: transparent; height: 0px;" data-ad-status="unfilled"><div id="aswift_4_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 0px; width: 306px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: hidden; opacity: 0;"><iframe id="aswift_4" name="aswift_4" browsingtopics="true" style="left: 0px; position: absolute; top: 0px; border: 0px; width: 306px; height: 0px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="306" height="0" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allow="attribution-reporting" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/ads(3).html" data-google-container-id="a!5" data-load-complete="true" data-google-query-id="COHri5eq1IMDFRHnTAIdgWMAqg"></iframe></div></ins></div></aside></div></div>
+			</div>
+</div>
+
+
+</div><!-- end sitecoent --> 
+
+	
+	<div class="google-auto-placed" style="width: 100%; height: auto; clear: both; text-align: center;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-2881563560339289" data-adsbygoogle-status="done" style="display: block; margin: 10px auto; background-color: transparent; height: 0px;" data-ad-status="unfilled"><div id="aswift_5_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 0px; width: 1200px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: hidden; opacity: 0;"><iframe id="aswift_5" name="aswift_5" browsingtopics="true" style="left: 0px; position: absolute; top: 0px; border: 0px; width: 1200px; height: 0px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="1200" height="0" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allow="attribution-reporting" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/ads(4).html" data-google-container-id="a!6" data-load-complete="true" data-google-query-id="CJz2soSr1IMDFcKBuQUdbtoCSA"></iframe></div></ins></div><footer class="site-footer">
+		<div class="container">
+			
+												  <div class="site-info">
+			    © 2023  - <a href="https://www.iotword.com/" target="_blank" rel="noreferrer nofollow">物联沃</a>. All rights reserved
+			    			    <a href="https://beian.miit.gov.cn/" target="_blank" class="text" rel="noreferrer nofollow"> 粤ICP备18046192号-1</a>
+			    			    <br>
+			    
+			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar" style="display: block;">
+	
+	    <div class="rollbar-item tap-dark" etap="tap-dark" title="夜间模式"><i class="mdi mdi-brightness-4"></i></div>
+    
+		<div class="rollbar-item tap-click-qiandao"><a class="click-qiandao" title="签到" href="javascript:;"><i class="fa fa-calendar-check-o"></i></a></div>
+		
+	
+	
+	    <div class="rollbar-item tap-blog-style" etap="tap-blog-style" data-id="1" title="博客模式"><i class="fa fa-list"></i></div>
+        <div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+	<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+    <div id="popup-signup" class="popup-signup fade" style="display: none;">
+    <div class="register-login-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img class="popup-logo" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/1676285581-efe874fffedeea1.png" data-dark="https://www.iotword.com/content/uploads/2023/02/1676285581-efe874fffedeea1.png" alt="物联沃-IOTWORD物联网">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="https://www.iotword.com/9155.html#login" data-toggle="login">登录</a>
+                        </li>
+                        <li><a href="https://www.iotword.com/9155.html#signup" data-toggle="signup">注册</a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="login">
+                            <div class="signup-form-container text-center">
+                                <form class="mb-0">
+                                                                                                                <a href="https://www.iotword.com/9155.html#" class="forget-password">仅开放社交账号登录</a>
+                                                                    </form>
+                                <!-- form  end -->
+                            </div>
+                            <!-- .signup-form end -->
+                        </div>
+                        <div class="tab-pane fade in" id="signup">
+                            <form class="mb-0">
+                                                                                                    <a href="https://www.iotword.com/9155.html#" class="forget-password">仅开放社交账号注册</a>
+                                                                
+                            </form>
+                            <!-- form  end -->
+                        </div>
+                    </div>
+                    <a target="_blank" href="https://www.iotword.com/wp-login.php?action=lostpassword" class="rest-password">忘记密码？</a>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://www.iotword.com/">
+      <img class="logo regular" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/1676285581-efe874fffedeea1.png" alt="物联沃-IOTWORD物联网">
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"><div class="slicknav_menu"><a href="https://www.iotword.com/9155.html#" aria-haspopup="true" role="button" tabindex="0" class="slicknav_btn slicknav_collapsed" style="outline: none;"><span class="slicknav_menutxt"></span><span class="slicknav_icon slicknav_no-text"><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span></span></a><ul class="slicknav_nav slicknav_hidden" aria-hidden="true" role="menu" style="display: none;"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-685"><a href="https://www.iotword.com/" role="menuitem" tabindex="-1"><i class="fa fa-home" aria-hidden="true"></i> 首页</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-124 slicknav_collapsed slicknav_parent"><a href="https://www.iotword.com/9155.html#" role="menuitem" aria-haspopup="true" tabindex="-1" class="slicknav_item slicknav_row" style="outline: none;"><a href="https://www.iotword.com/news" tabindex="-1"><i class="fa fa-newspaper-o" aria-hidden="true"></i> 行业资讯</a>
+<span class="slicknav_arrow">►</span></a><ul class="sub-menu slicknav_hidden" role="menu" aria-hidden="true" style="display: none;">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-160"><a href="https://www.iotword.com/news/internet" role="menuitem" tabindex="-1">互联网</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-159"><a href="https://www.iotword.com/news/iot" role="menuitem" tabindex="-1">物联网</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-123 slicknav_collapsed slicknav_parent"><a href="https://www.iotword.com/9155.html#" role="menuitem" aria-haspopup="true" tabindex="-1" class="slicknav_item slicknav_row" style="outline: none;"><a href="https://www.iotword.com/apply" tabindex="-1"><i class="fa fa-cloud" aria-hidden="true"></i> 物联网应用</a>
+<span class="slicknav_arrow">►</span></a><ul class="sub-menu slicknav_hidden" role="menu" aria-hidden="true" style="display: none;">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-429"><a href="https://www.iotword.com/apply/cloud" role="menuitem" tabindex="-1">云计算</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-161"><a href="https://www.iotword.com/apply/%e6%99%ba%e6%85%a7%e5%9f%8e%e5%b8%82" role="menuitem" tabindex="-1">智慧城市</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-162"><a href="https://www.iotword.com/apply/%e6%99%ba%e8%83%bd%e5%ae%b6%e5%b1%85" role="menuitem" tabindex="-1">智能家居</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-734"><a href="https://www.iotword.com/apply/medical" role="menuitem" tabindex="-1">智能医疗</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-638"><a href="https://www.iotword.com/apply/%e6%99%ba%e6%85%a7%e7%89%a9%e6%b5%81" role="menuitem" tabindex="-1">智慧物流</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-122 slicknav_collapsed slicknav_parent"><a href="https://www.iotword.com/9155.html#" role="menuitem" aria-haspopup="true" tabindex="-1" class="slicknav_item slicknav_row" style="outline: none;"><a href="https://www.iotword.com/product" tabindex="-1"><i class="fa fa-android" aria-hidden="true"></i> 智能产品</a>
+<span class="slicknav_arrow">►</span></a><ul class="sub-menu slicknav_hidden" role="menu" aria-hidden="true" style="display: none;">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-654"><a href="https://www.iotword.com/product/design" role="menuitem" tabindex="-1">产品设计</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-655"><a href="https://www.iotword.com/product/evaluation" role="menuitem" tabindex="-1">产品评测</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-925"><a href="https://www.iotword.com/tech" role="menuitem" tabindex="-1">技术教程</a></li>
+</ul></div></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?5cfc22e333e6555ba5d085f118119692";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script async="" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/f(2).txt" crossorigin="anonymous" data-checked-head="true"></script>
+
+
+
+
+
+<!-- 
+
+<script>
+var openval = keyget2('open')
+if(openval == 1){
+}else{
+if(isMobile()){
+$("body").click(function(event){
+var arr = ["https://s.click.taobao.com/etRMw6u","https://u.jd.com/0zXQCCF",'https://s.click.taobao.com/XPdVN7u']
+var index = Math.floor((Math.random()*arr.length));
+var uri = arr[index];let id="new_a"
+$(this).off(event);
+createSuperLabel(uri,id)
+}
+)
+}else{
+$("body").click(function(event){
+var arr = ["https://u.jd.com/0iXakvL","https://s.click.taobao.com/etRMw6u"]
+var index = Math.floor((Math.random()*arr.length));
+var uri = arr[index];
+let id="new_a"
+$(this).off(event);
+createSuperLabel(uri,id)
+}
+)
+}
+}
+function keyset2(key, value, expire) {
+let obj={
+data:value,
+time:Date.now(),
+expire:expire
+};
+localStorage.setItem(key,JSON.stringify(obj));
+}
+function keyget2(key) {
+let val =localStorage.getItem(key);
+if(!val){
+return val;
+}
+val =JSON.parse(val);
+if(Date.now()-val.time>val.expire){
+localStorage.removeItem(key);
+return null;
+}
+return val.data;
+}
+function createSuperLabel(url, id) { 
+let a = document.createElement("a"); 
+a.setAttribute("href", url); 
+a.setAttribute("target", "_blank"); 
+a.setAttribute("onclick", "window.open(this.href); return false;");
+a.setAttribute("id", id); 
+// 防止反复添加 
+if(!document.getElementById(id)) { 
+document.body.appendChild(a); 
+}
+keyset2('open','1',43200000)
+a.click();
+}
+function isMobile(){
+if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+return true; // 移动端
+}else{
+return false; // PC端
+}
+}
+</script>
+ -->
+
+
+<link rel="stylesheet" id="yarppRelatedCss-css" href="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/related.css" type="text/css" media="all">
+<script type="text/javascript" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/plugins.js.下载" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"\u7269\u8054\u6c83-IOTWORD\u7269\u8054\u7f51","home_url":"https:\/\/www.iotword.com","ajaxurl":"https:\/\/www.iotword.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"\u52a0\u8f7d\u66f4\u591a","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> \u52a0\u8f7d\u4e2d...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>RiPro\u6700\u65b0\u7248\u672c\u66f4\u65b0\u65e5\u5fd7<\/h3><div>\u8fd9\u662f\u4e00\u6761\u7f51\u7ad9\u516c\u544a\uff0c\u53ef\u5728\u540e\u53f0\u5f00\u542f\u6216\u5173\u95ed\uff0c\u53ef\u81ea\u5b9a\u4e49\u80cc\u666f\u989c\u8272\uff0c\u6807\u9898\uff0c\u5185\u5bb9\uff0c\u7528\u6237\u9996\u6b21\u6253\u5f00\u5173\u95ed\u540e\u4e0d\u518d\u91cd\u590d\u5f39\u51fa\uff0c\u6b64\u5904\u53ef\u4f7f\u7528html\u6807\u7b7e...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><div class=\"pay-item\" id=\"alipay\" data-type=\"1\"><i class=\"alipay\"><\/i><span>\u652f\u4ed8\u5b9d<\/span><\/div><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">\u5f53\u524d\u4e3a\u6e38\u5ba2\u8d2d\u4e70\u6a21\u5f0f<\/p>","alipay":1,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/app.js.下载" id="app-js"></script>
+<script type="text/javascript" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/jquery.fancybox.min.js.下载" id="fancybox-js"></script>
+<script type="text/javascript" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/comment-reply.min.js.下载" id="comment-reply-js"></script>
+<script type="text/javascript" id="erphpdown-js-extra">
+/* <![CDATA[ */
+var erphpdown_ajax_url = "https:\/\/www.iotword.com\/wp-admin\/admin-ajax.php";
+/* ]]> */
+</script>
+<script type="text/javascript" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/erphpdown.js.下载" id="erphpdown-js"></script>
+<script async="async" type="text/javascript" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/form.js.下载" id="akismet-form-js"></script>
+
+
+</div><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;" data-ad-status="unfilled"><div id="aswift_0_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"><iframe id="aswift_0" name="aswift_0" browsingtopics="true" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allow="attribution-reporting" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/ads(5).html" data-google-container-id="a!1" data-load-complete="true"></iframe></div></ins><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" data-side-rail-status="displayed" data-ad-status="filled" style="display: block !important; z-index: 2147483647 !important; margin: 0px !important; padding: 0px !important; position: fixed !important; left: 174px !important; top: 188px !important; overflow: visible !important; opacity: 1 !important; transition: all 500ms ease-in 0s !important;"><div id="aswift_6_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 400px; width: 200px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"><iframe id="aswift_6" name="aswift_6" browsingtopics="true" style="width:200px !IMPORTANT;height:400px !IMPORTANT" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="200" height="400" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allow="attribution-reporting" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/zrt_lookup_fy2021.html" data-google-container-id="a!7" data-google-query-id="CJWR4Zaq1IMDFYvBTAIdS7QN7A" data-load-complete="true"></iframe></div><span class="left-side-rail-edge" style="background: rgb(250, 250, 250) !important; position: absolute !important; left: 0px !important; top: 400px !important; width: 200px !important; height: 5px !important; box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 5px -1px, rgba(0, 0, 0, 0.1) 0px -1px 2px -1px !important;"></span><span class="left-side-rail-dismiss-btn" style="background: rgb(250, 250, 250) !important; position: absolute !important; left: 75px !important; right: 75px !important; top: 405px !important; box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 5px -1px, rgba(0, 0, 0, 0.1) 0px -1px 2px -1px !important;"><svg style="position: absolute !important; top: 0px !important; display: block !important; width: 50px !important; height: 30px !important; margin-top: -5px !important; transform: none !important; pointer-events: initial !important;"><defs><filter id="left-side-rail-drop-shadow" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><fecomponenttransfer in="SourceAlpha" result="TransferredAlpha"><fefuncr type="discrete" tableValues="0.5"></fefuncr><fefuncg type="discrete" tableValues="0.5"></fefuncg><fefuncb type="discrete" tableValues="0.5"></fefuncb></fecomponenttransfer><fegaussianblur in="TransferredAlpha" stdDeviation="2"></fegaussianblur><feoffset dx="0" dy="0" result="offsetblur"></feoffset><femerge><femergenode></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter></defs><path d="M5,5 L5,17 A8,8 0 0,0 13,25 L37,25 A8,8 0 0,0 45,17 L45,5 Z" stroke="#FAFAFA" stroke-width="1" fill="#FAFAFA" style="filter: url(&quot;#left-side-rail-drop-shadow&quot;);"></path><rect x="0" y="0" width="50" height="5" style="fill: rgb(250, 250, 250);"></rect><g stroke="#616161" stroke-width="2px" stroke-linecap="square"><line x1="18" y1="18" x2="25" y2="12"></line><line x1="25" y1="12" x2="32" y2="18"></line></g></svg></span></ins><iframe src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/aframe.html" width="0" height="0" style="display: none;"></iframe></body><iframe id="google_esf" name="google_esf" src="./【开源】ESP32墨水屏桌面小屏幕：DIY一个可爱的嵌入式项目-物联沃-IOTWORD物联网_files/zrt_lookup_fy2021(1).html" style="display: none;"></iframe></html>
